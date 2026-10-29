@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme {
+  --color-plane: #0c0c0b;
+  --color-surface: #171716;
+  --color-raised: #1f1f1d;
+  --color-hairline: #2a2a27;
+  --color-axis: #3a3935;
+  --color-ink: #f3efe6;
+  --color-ink-2: #c3c2b7;
+  --color-muted: #8b8983;
+  --color-cream: #efe6d2;
+
+  /* Bands carry state, so they come from the status palette: good, warning, neutral, critical. */
+  --color-match: #0ca30c;
+  --color-uncertain: #fab219;
+  --color-reject: #686761;
+  --color-error: #d03b3b;
+
+  /* Categorical order validated on the #171716 surface (dark): identity for choice options. */
+  --color-s1: #3987e5;
+  --color-s2: #d95926;
+  --color-s3: #199e70;
+  --color-s4: #c98500;
+  --color-s5: #d55181;
+  --color-s6: #008300;
+  --color-s7: #9085e9;
+  --color-s8: #e66767;
+
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-mono: var(--font-azeret), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-plane);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+/* Film grain over everything: the room is dark, not flat. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+::selection {
+  background: var(--color-cream);
+  color: #0c0c0b;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Component classes sit in a layer so Tailwind utilities (hidden, !py-1.5, ...) can override them. */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 14px;
+  }
+
+  .field {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-axis);
+    color: var(--color-ink);
+    outline: none;
+    transition: border-color 160ms ease;
+  }
+  .field:focus {
+    border-bottom-color: var(--color-cream);
+  }
+  .field::placeholder {
+    color: #5d5c57;
+  }
+
+  .box {
+    width: 100%;
+    background: #121211;
+    border: 1px solid var(--color-hairline);
+    border-radius: 10px;
+    color: var(--color-ink);
+    outline: none;
+    padding: 10px 12px;
+    transition: border-color 160ms ease, background 160ms ease;
+  }
+  .box:focus {
+    border-color: #6d6a62;
+    background: #141413;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 120ms ease, background 160ms ease, opacity 160ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-primary {
+    background: var(--color-cream);
+    color: #0c0c0b;
+  }
+  .btn-primary:hover {
+    background: #fff7e4;
+  }
+  .btn-primary:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-axis);
+    color: var(--color-ink-2);
+  }
+  .btn-ghost:hover {
+    border-color: #6d6a62;
+    color: var(--color-ink);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--color-ink-2);
+    background: #121211;
+  }
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--color-cream);
+  box-shadow: 0 0 0 0 rgba(239, 230, 210, 0.6);
+  animation: pulse 1.6s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 230, 210, 0.55);
+  }
+  80%,
+  100% {
+    box-shadow: 0 0 0 10px rgba(239, 230, 210, 0);
+  }
+}
+
+.feed-row {
+  animation: feed-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes feed-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+    background: rgba(239, 230, 210, 0.07);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    background: transparent;
+  }
+}
+
+.rise {
+  animation: rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.flow {
+  background-image: linear-gradient(90deg, var(--color-axis) 50%, transparent 50%);
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 50%;
+}
+.flow.active {
+  background-image: linear-gradient(90deg, var(--color-cream) 50%, transparent 50%);
+  animation: flow 0.6s linear infinite;
+}
+@keyframes flow {
+  to {
+    background-position: 10px 50%;
+  }
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #3a3935 transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot,
+  .feed-row,
+  .rise,
+  .flow.active {
+    animation: none;
+  }
+}

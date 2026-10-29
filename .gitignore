@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+.data/
+.data-test/
+.env*.local
+.env
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.next-check/
+.next-test/
+.next-app/
+.agent/
+.claude/settings.local.json
+*.log

@@ -1,0 +1,42 @@
+{
+  "name": "jev-workspace",
+  "version": "0.1.0",
+  "description": "Give Jev a mission and some links. It judges every item live and hands you a results page.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "next dev -H 127.0.0.1 -p 3131",
+    "build": "next build",
+    "start": "next start -H 127.0.0.1 -p 3131",
+    "app": "next build && next start -H 127.0.0.1 -p 3131",
+    "desktop": "sh desktop/build.sh",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "mock:jev": "node scripts/mock-jev.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "next": "16.3.6",
+    "node-html-parser": "^9.0.4",
+    "papaparse": "^5.7.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "unpdf": "^1.8.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jev-workspace",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3131
+    },
+    {
+      "name": "mock-jev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/mock-jev.mjs"
+      ],
+      "port": 8787
+    },
+    {
+      "name": "jev-workspace-mock",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "JEV_BASE_URL=http://127.0.0.1:8787/v1/systemone",
+        "DATA_DIR=.data-test",
+        "npm",
+        "run",
+        "dev"
+      ],
+      "port": 3131
+    },
+    {
+      "name": "jev-workspace-test",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "JEV_BASE_URL=http://127.0.0.1:8787/v1/systemone",
+        "DATA_DIR=.data-test",
+        "NEXT_DIST_DIR=.next-test",
+        "npx",
+        "next",
+        "dev",
+        "-H",
+        "127.0.0.1",
+        "-p",
+        "3132"
+      ],
+      "port": 3132
+    }
+  ]
+}
